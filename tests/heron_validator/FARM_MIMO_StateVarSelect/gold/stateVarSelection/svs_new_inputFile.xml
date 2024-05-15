@@ -4,6 +4,7 @@
     <Sequence>readTrainData,DMDCTrain,pickleRom,stats,writeOut</Sequence>
     <batchSize>8</batchSize>
     <internalParallel>True</internalParallel>
+    <parallelMethod>ray</parallelMethod>
   </RunInfo>
 
   <Files>
