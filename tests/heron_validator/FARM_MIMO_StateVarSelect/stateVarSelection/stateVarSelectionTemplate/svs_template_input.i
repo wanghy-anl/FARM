@@ -1,8 +1,10 @@
 [fmuInfo]
 # fmuFile: TODO: How to use #FARM# to specify relative path?
 fmuFile = ../FMUs/BOP_SES_empty_MWinput.fmu
+
 # inputVar: delimit multiple input variables by comma (,)
 inputVar = SES_Demand_MW, BOP_Demand_MW
+
 # outputVar: delimit each subgroup by semicolon (;), and delimit each output variable of the same subgroupt by comma (,)
 outputVar = SES_Electric_Power, SES_Firing_Temperature; BOP_Electric_Power, BOP_Turbine_Pressure
 

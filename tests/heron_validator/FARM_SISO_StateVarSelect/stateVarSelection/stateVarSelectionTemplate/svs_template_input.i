@@ -2,9 +2,11 @@
 # fmuFile: related to the "svs_maker.py"
 # fmuFile = ../FMUs/BOP_empty_MWinput.fmu
 fmuFile = ../FMUs/SES_empty_MWinput.fmu
+
 # inputVar: delimit multiple input variables by comma (,)
 # inputVar = BOP_Demand_MW
 inputVar = SES_Demand_MW
+
 # outputVar: delimit each subgroup by semicolon (;), and delimit each output variable of the same subgroupt by comma (,)
 # outputVar = Electric_Power, Turbine_Pressure
 outputVar = Electric_Power, Firing_Temperature
@@ -12,8 +14,10 @@ outputVar = Electric_Power, Firing_Temperature
 [simulationInfo]
 # fmuStepSize: float number, measured in seconds
 fmuStepSize = 10.0
+
 # setpointShiftStep: number of time steps to shift adjacent setpoints. integer, minimum 2 (of course, it doen't matter for Single-Input system)
 setpointShiftStep = 2
+
 # inputTransients: square wave transients, deliminate each profile by semicolon(;)
 # within each profile: intialValueForInput1, secondValueForInput1, intialValueForInput2, secondValueForInput2, ... 
 # The scheduling parameter is the combination of secondValueForInput*
@@ -41,6 +45,7 @@ periodToChange = 3600
 outputTimeStart = 1800
 # outputTimeEnd: float number, measured in seconds. The simulation will end at this time value
 outputTimeEnd = 5400
+
 # outputFolder: TODO: How to use #FARM# to specify relative path?
 # outputFolder = stateVarSelectionTemplate/simulatedDataBOP
 outputFolder = stateVarSelectionTemplate/simulatedDataSES

@@ -864,6 +864,17 @@ class FARM_SISO(Validator):
           ", y, " + ', '.join([str(num) for num in y_hist[:,i]]) + 
           ", ymin, " + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Min']]) +
           ", ymax, " + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Max']]))
+        
+        # save time, v, y, y_min and y_max to csv file
+        csvFileName = "DispatchSummary_"+str(unit)+".csv"
+        header = 'Time, ' + ', '.join((str(unit)+'_v%d') %(x) for x in range(m)) + ', ' +  ', '.join((str(unit)+'_y%d') %(x) for x in range(p)) + ', ' + ', '.join((str(unit)+'_y%dmin') %(x) for x in range(p)) + ', ' + ', '.join((str(unit)+'_y%dmax') %(x) for x in range(p)) + '\n'
+        print(header)
+        f = open(csvFileName, 'w', newline='')
+        f.write(header)
+        for i in range(len(t_hist)):
+          f.write(str(t_hist[i]) + ', ' + str(v_hist[0][i]) + ', ' + ', '.join([str(num) for num in y_hist[:,i]])+ ', '+', '.join([str(num) for num in self._unitInfo[unit]['Targets_Min']]) + ', ' + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Max']]) + '\n')
+        f.close()
+        
 
     return errs
 
@@ -1598,11 +1609,11 @@ class FARM_MIMO(Validator):
         Hv_noRedund, hv_noRedund, Idx_noRedund = noRedund(Hv_Redund, hv_Redund, Idx_Redund)
         i=0
         print('Trial #{}, {} constraints left.'.format(i,hv_noRedund.shape[0]))
-        while hv_Redund.shape[0] != hv_noRedund.shape[0]:
-          Hv_Redund = Hv_noRedund; hv_Redund = hv_noRedund; Idx_Redund = Idx_noRedund
-          Hv_noRedund, hv_noRedund, Idx_noRedund = noRedund(Hv_Redund, hv_Redund, Idx_Redund)
-          i+=1
-          print('Trial #{}, {} constraints left.'.format(i,hv_noRedund.shape[0]))
+        # while hv_Redund.shape[0] != hv_noRedund.shape[0]:
+        #   Hv_Redund = Hv_noRedund; hv_Redund = hv_noRedund; Idx_Redund = Idx_noRedund
+        #   Hv_noRedund, hv_noRedund, Idx_noRedund = noRedund(Hv_Redund, hv_Redund, Idx_Redund)
+        #   i+=1
+        #   print('Trial #{}, {} constraints left.'.format(i,hv_noRedund.shape[0]))
 
         print("Hv_noRedund={}, hv_noRedund={}".format(Hv_noRedund.shape, hv_noRedund.shape))
 
@@ -1610,6 +1621,7 @@ class FARM_MIMO(Validator):
         
         # Save Hv, hv, r, v_0 as .mat file for offline analysis
         mdic = {
+          "Time":time*3600.,
           "Hv_orig":Hv_DMDc, "hv_orig":hv_DMDc.reshape(-1,1), 
           "Hv_noRedund":Hv_noRedund, "hv_noRedund":hv_noRedund.reshape(-1,1), "Idx_noRedund":Idx_noRedund.reshape(-1,1),
           "r":(r.reshape(m,-1)-v_0).reshape(-1,1), "v_0":v_0.reshape(-1,1), "y":y_fetch.reshape(-1,1)}
@@ -1682,6 +1694,7 @@ class FARM_MIMO(Validator):
         
         # Save Hv, hv, r, v_0, v as .mat file, and overwrite the previous one
         mdic = {
+          "Time":time*3600.,
           "Hv_orig":Hv_DMDc, "hv_orig":hv_DMDc.reshape(-1,1), 
           "Hv_noRedund":Hv_noRedund, "hv_noRedund":hv_noRedund.reshape(-1,1), "Idx_noRedund":Idx_noRedund.reshape(-1,1),
           "r":(r.reshape(m,-1)-v_0).reshape(-1,1), "v":v_CG.reshape(-1,1), "v_0":v_0.reshape(-1,1), "y":y_fetch.reshape(-1,1)}
@@ -1925,6 +1938,16 @@ class FARM_MIMO(Validator):
           ", y, " + ', '.join([str(num) for num in y_hist[:,i]]) + 
           ", ymin, " + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Min']]) +
           ", ymax, " + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Max']]))
+
+        # save time, v, y, y_min and y_max to csv file
+        csvFileName = "DispatchSummary_"+str(unit)+".csv"
+        header = 'Time, ' + ', '.join((str(unit)+'_v%d') %(x) for x in range(m)) + ', ' +  ', '.join((str(unit)+'_y%d') %(x) for x in range(p)) + ', ' + ', '.join((str(unit)+'_y%dmin') %(x) for x in range(p)) + ', ' + ', '.join((str(unit)+'_y%dmax') %(x) for x in range(p)) + '\n'
+        print(header)
+        f = open(csvFileName, 'w', newline='')
+        f.write(header)
+        for i in range(len(t_hist)):
+          f.write(str(t_hist[i]) + ', ' + ', '.join([str(num) for num in v_hist[:,i]]) + ', ' + ', '.join([str(num) for num in y_hist[:,i]])+ ', '+', '.join([str(num) for num in self._unitInfo[unit]['Targets_Min']]) + ', ' + ', '.join([str(num) for num in self._unitInfo[unit]['Targets_Max']]) + '\n')
+        f.close()
 
     return errs
 
